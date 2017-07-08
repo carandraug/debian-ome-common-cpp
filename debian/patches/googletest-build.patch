@@ -1,0 +1,58 @@
+Description: build googletest from source instead of searching for pre-compiled library
+ googletest does not recommend installation of it as a shared library
+ and so Debian googletest package only has the header files and a source
+ tree for reuse.  ome-common-cpp uses find_package nonetheless because
+ googletest does have an install rule since it's 1.8 release despite still
+ recommending against it for a system-wide installation.  This patch was
+ adapted from ome-common-cpp previous code, when they were building
+ googletest from source.
+Origin: https://github.com/ome/ome-common-cpp/commit/e1b63f29bb899
+Bug: https://github.com/ome/ome-common-cpp/issues/42
+Last-Update: Sun  9 Jul 00:11:13 BST 2017
+--- a/cmake/GTest.cmake
++++ b/cmake/GTest.cmake
+@@ -38,14 +38,40 @@
+ option(test "Enable unit tests (requires gtest)" ON)
+ set(BUILD_TESTS ${test})
+ set(EXTENDED_TESTS ${extended-tests})
++set(GTEST_SRC_DIR "/usr/src/googletest/googletest/")
+ 
+ # Unit tests
+ find_package(Threads REQUIRED)
+ 
+ if(BUILD_TESTS)
+-  find_package(GTest)
+-  if(NOT GTEST_FOUND)
+-    message(WARNING "GTest not found; tests disabled")
+-    set(BUILD_TESTS OFF)
++  if(EXISTS ${GTEST_SRC_DIR})
++    ## Remove warnings triggered by gtest since they aren't our responsibility.
++    set(SAVED_CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
++    string(REPLACE " " ";" GTEST_FLAG_LIST "${CMAKE_CXX_FLAGS}")
++    list(REMOVE_ITEM GTEST_FLAG_LIST
++      -Wconversion
++      -Wctor-dtor-privacy
++      -Wmissing-declarations
++      -Wswitch-default)
++    string(REPLACE ";" " " CMAKE_CXX_FLAGS "${GTEST_FLAG_LIST}")
++    unset(GTEST_FLAG_LIST)
++
++    ## Build googletest using its own cmake support.  However, since
++    ## googletest 1.8, its cmake rules have an install target which is
++    ## the EXCLUDE_FROM_ALL is required.
++    add_subdirectory("${GTEST_SRC_DIR}" "${CMAKE_CURRENT_BINARY_DIR}/ext/gtest"
++      EXCLUDE_FROM_ALL)
++
++    ## Restore saved flags.
++    set(CMAKE_CXX_FLAGS "${SAVED_CMAKE_CXX_FLAGS}")
++
++    add_library(GTest::GTest ALIAS gtest)
++    set(GTEST_FOUND TRUE)
++  else()
++    find_package(GTest)
++    if(NOT GTEST_FOUND)
++      message(WARNING "GTest not found; tests disabled")
++      set(BUILD_TESTS OFF)
++    endif()
+   endif()
+ endif()

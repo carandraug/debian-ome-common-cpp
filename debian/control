@@ -4,6 +4,7 @@ Priority: extra
 Maintainer: Carnë Draug <carandraug+dev@gmail.com>
 Build-Depends: cmake, debhelper (>=9),
  doxygen,
+ googletest,
  graphviz,
  libboost-date-time-dev,
  libboost-filesystem-dev,
