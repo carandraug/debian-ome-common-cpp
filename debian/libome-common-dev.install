@@ -1,0 +1,4 @@
+usr/include
+usr/lib/*/cmake/OMECommon
+usr/lib/*/cmake/OMECompat
+usr/lib/*/libome-common.so

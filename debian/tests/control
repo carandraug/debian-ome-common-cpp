@@ -1,0 +1,3 @@
+Tests: make-test
+Depends: @builddeps@, googletest
+Restrictions: build-needed

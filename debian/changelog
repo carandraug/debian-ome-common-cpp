@@ -1,0 +1,5 @@
+ome-common-cpp (5.4.2-1) UNRELEASED; urgency=low
+
+  * Initial release. (Closes: #866748)
+
+ -- Carnë Draug <carandraug+dev@gmail.com>  Sat, 08 Jul 2017 16:42:44 +0100

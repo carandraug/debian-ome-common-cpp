@@ -1,0 +1,75 @@
+Source: ome-common-cpp
+Section: libs
+Priority: extra
+Maintainer: Carnë Draug <carandraug+dev@gmail.com>
+Build-Depends: cmake, debhelper (>=9),
+ doxygen,
+ graphviz,
+ libboost-date-time-dev,
+ libboost-filesystem-dev,
+ libboost-system-dev,
+ libboost-iostreams-dev,
+ libboost-log-dev,
+ libboost-program-options-dev,
+ libboost-regex-dev,
+ libboost-thread-dev,
+ libboost-chrono-dev,
+ libboost-atomic-dev,
+ libxalan-c-dev,
+ libxerces-c-dev
+Standards-Version: 3.9.8
+Homepage: https://github.com/ome/ome-common-cpp
+Testsuite: autopkgtest
+
+Package: libome-common5.4.2
+Architecture: any
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: C++ library providing common functionality for OME C++ components
+ OME Common is a standalone C++ library required by other OME C++
+ projects for common functionality which is not readily available from
+ the C++ Standard Library.  This includes basic portability functions,
+ to wrapping other libraries to make them usable with Modern C++
+ programming practices.
+ .
+ It serves a similar purpose to the OME formats-common Java library,
+ with some shared functionality, though for the most part they are
+ quite different.
+
+Package: libome-common-dev
+Section: libdevel
+Architecture: any
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
+Depends: libome-common5.4.2 (= ${binary:Version}), ${misc:Depends}
+Description: ome-common-cpp header files
+ OME Common is a standalone C++ library required by other OME C++
+ projects for common functionality which is not readily available from
+ the C++ Standard Library.  This includes basic portability functions,
+ to wrapping other libraries to make them usable with Modern C++
+ programming practices.
+ .
+ It serves a similar purpose to the OME formats-common Java library,
+ with some shared functionality, though for the most part they are
+ quite different.
+ .
+ This package contains the development header files.
+
+Package: libome-common-doc
+Section: doc
+Architecture: all
+Multi-Arch: foreign
+Depends: ${misc:Depends}
+Description: ome-common-cpp documentation files
+ OME Common is a standalone C++ library required by other OME C++
+ projects for common functionality which is not readily available from
+ the C++ Standard Library.  This includes basic portability functions,
+ to wrapping other libraries to make them usable with Modern C++
+ programming practices.
+ .
+ It serves a similar purpose to the OME formats-common Java library,
+ with some shared functionality, though for the most part they are
+ quite different.
+ .
+ This package contains the documentation files.
